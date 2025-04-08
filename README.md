@@ -43,7 +43,7 @@ Ubuntu 24.04, 测试环境依赖g++, python3，verilator，xspcomm，picker，py
 ## 验证接口
 
 `````python
-async def _request_data(instruncache_bundle, req_addr, \
+async def _request_data(instruncache_bundle, req_addr, \\
                         l2_resp_source, l2_resp_corrupt, l2_resp_data):
 `````
 instruncache\_bundle:
@@ -77,8 +77,8 @@ l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data
 示例：
 
 `````python
-    io_resp_valid, \
-    io_resp_bits_corrupt, \
+    io_resp_valid, \\
+    io_resp_bits_corrupt, \\
     io_resp_bits_data = await _request_data(instruncache_bundle, 0xF0000002, 0, 0, 0xAAAAAAAABBBBBBBB)
 
     assert 1 == io_resp_valid
@@ -92,6 +92,14 @@ l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data
 
 |步骤|操作内容|预期结果|覆盖功能点|
 |0|reset dut|assert |-|
+|0|reset dut                         |assert io\_req\_ready == 1                              |-|
+
+|1|IFU发出读数据请求, 地址0xF0000000 |assert auto\_client\_out\_a\_bits\_address == 0xF0000000     |-|
+| |                                  |assert auto\_client\_out\_a\_valid == 1                     |-|
+|2|模拟L2返回数据                    |set auto\_client\_out\_d\_bits\_data = 0xAAAAAAAABBBBBBBB    |-|
+|3|检测InstrUncache是否正确返回数据  |assert io\_resp\_valid == 1                               |-|
+| |                                  |assert io\_resp\_bits\_corrupt == 0                        |-|
+| |
 
 
 #### 测试用例2
