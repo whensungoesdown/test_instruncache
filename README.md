@@ -1,8 +1,8 @@
-# 模块名称
+# InstrUncache
 
 ## 测试目标
 
-<测试目标、测试方法描述>
+InstrUncache模块用于Frontend中获取非缓存指令。例如某一地址对应TLB查询返回的结果为Non-cacheable，IFU发送请求到InstrUncache模块。
 
 
 ## 测试环境
