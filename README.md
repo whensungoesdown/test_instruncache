@@ -87,11 +87,16 @@ l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data
 
 ## 用例说明
 
-#### 测试用例1
+#### test\_instruncache\_smoke
 
 |步骤|操作内容|预期结果|覆盖功能点|
-|-|-|-|-|
-|-|-|-|-|
+|0|reset dut                         |assert io\_req\_ready == 1                              |-|
+|1|IFU发出读数据请求, 地址0xF0000000 |assert auto_client_out_a_bits_address == 0xF0000000     |-|
+| |                                  |assert auto_client_out_a_valid == 1                     |-|
+|2|模拟L2返回数据                    |set auto_client_out_d_bits_data = 0xAAAAAAAABBBBBBBB    |-|
+|3|检测InstrUncache是否正确返回数据  |assert io_resp_valid == 1                               |-|
+| |                                  |assert io_resp_bits_corrupt == 0                        |-|
+| |                                  |assert io_resp_bits_data == 0xBBBBBBBB                  |-|
 
 #### 测试用例2
 
