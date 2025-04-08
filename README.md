@@ -8,19 +8,19 @@ InstrUncache模块用于Frontend中获取非缓存指令。例如某一地址对
 module InstrUncache(
   input         clock,
   input         reset,
-  input         auto_client_out_a_ready,
-  output        auto_client_out_a_valid,
-  output [47:0] auto_client_out_a_bits_address,
-  input         auto_client_out_d_valid,
-  input         auto_client_out_d_bits_source,
-  input  [63:0] auto_client_out_d_bits_data,
-  input         auto_client_out_d_bits_corrupt,
-  output        io_req_ready,
-  input         io_req_valid,
-  input  [47:0] io_req_bits_addr,
-  output        io_resp_valid,
-  output [31:0] io_resp_bits_data,
-  output        io_resp_bits_corrupt
+  input         auto\_client\_out\_a\_ready,
+  output        auto\_client\_out\_a\_valid,
+  output [47:0] auto\_client\_out\_a\_bits\_address,
+  input         auto\_client\_out\_d\_valid,
+  input         auto\_client\_out\_d\_bits\_source,
+  input  [63:0] auto\_client\_out\_d\_bits\_data,
+  input         auto\_client\_out\_d\_bits\_corrupt,
+  output        io\_req\_ready,
+  input         io\_req\_valid,
+  input  [47:0] io\_req\_bits\_addr,
+  output        io\_resp\_valid,
+  output [31:0] io\_resp\_bits\_data,
+  output        io\_resp\_bits\_corrupt
 );
 `````
 
@@ -43,8 +43,8 @@ Ubuntu 24.04, 测试环境依赖g++, python3，verilator，xspcomm，picker，py
 ## 验证接口
 
 `````python
-async def _request_data(instruncache_bundle, req_addr, \\
-                        l2_resp_source, l2_resp_corrupt, l2_resp_data):
+async def \_request\_data(instruncache\_bundle, req\_addr, \
+                        l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data):
 `````
 instruncache\_bundle:
 
@@ -52,15 +52,15 @@ instruncache\_bundle:
 
 
 `````python
-@toffee_test.testcase
-async def test_instruncache_addr_alignment(toffee_request: toffee_test.ToffeeRequest):
+@toffee\_test.testcase
+async def test\_instruncache\_addr\_alignment(toffee\_request: toffee\_test.ToffeeRequest):
 
-    toffee.setup_logging(toffee.WARNING)
-    instruncache = toffee_request.create_dut(DUTInstrUncache, "clock")
-    toffee.start_clock(instruncache)
+    toffee.setup\_logging(toffee.WARNING)
+    instruncache = toffee\_request.create\_dut(DUTInstrUncache, "clock")
+    toffee.start\_clock(instruncache)
 
-    instruncache_bundle = InstrUncacheBundle()
-    instruncache_bundle.bind(instruncache)
+    instruncache\_bundle = InstrUncacheBundle()
+    instruncache\_bundle.bind(instruncache)
 
 `````
 
@@ -77,13 +77,13 @@ l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data
 示例：
 
 `````python
-    io_resp_valid, \\
-    io_resp_bits_corrupt, \\
-    io_resp_bits_data = await _request_data(instruncache_bundle, 0xF0000002, 0, 0, 0xAAAAAAAABBBBBBBB)
+    io\_resp\_valid, \
+    io\_resp\_bits\_corrupt, \
+    io\_resp\_bits\_data = await \_request\_data(instruncache\_bundle, 0xF0000002, 0, 0, 0xAAAAAAAABBBBBBBB)
 
-    assert 1 == io_resp_valid
-    assert 0 == io_resp_bits_corrupt
-    assert 0xAAAABBBB == io_resp_bits_data
+    assert 1 == io\_resp\_valid
+    assert 0 == io\_resp\_bits\_corrupt
+    assert 0xAAAABBBB == io\_resp\_bits\_data
 `````
 
 ## 用例说明
