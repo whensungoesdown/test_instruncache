@@ -90,7 +90,7 @@ l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data
 #### 测试用例1  test\_instruncache\_smoke
 
 |步骤|操作内容|预期结果|覆盖功能点|
-|0|reset dut                         |assert                |-|
+|0|reset dut|assert |-|
 
 
 #### 测试用例2
