@@ -2,26 +2,83 @@
 
 ## 测试目标
 
-InstrUncache模块用于Frontend中获取非缓存指令。例如某一地址对应TLB查询返回的结果为Non-cacheable，IFU发送请求到InstrUncache模块。
+InstrUncache模块用于Frontend中获取非缓存指令。例如某一地址对应TLB查询结果为Non-cacheable，IFU发送请求到InstrUncache模块。
 
+`````verilog
+module InstrUncache(
+  input         clock,
+  input         reset,
+  input         auto_client_out_a_ready,
+  output        auto_client_out_a_valid,
+  output [47:0] auto_client_out_a_bits_address,
+  input         auto_client_out_d_valid,
+  input         auto_client_out_d_bits_source,
+  input  [63:0] auto_client_out_d_bits_data,
+  input         auto_client_out_d_bits_corrupt,
+  output        io_req_ready,
+  input         io_req_valid,
+  input  [47:0] io_req_bits_addr,
+  output        io_resp_valid,
+  output [31:0] io_resp_bits_data,
+  output        io_resp_bits_corrupt
+);
+`````
+
+测试方法：模拟IFU向InstrUncache发出读数据请求。InstrUncache收到后向L2缓存接口发读数据请求。模拟L2返回数据，检测InstrUncache返回给IFU的数据是否正确。
 
 ## 测试环境
 
-<测试环境描述，依赖描述>
+Ubuntu 24.04, 测试环境依赖g++, python3，verilator，xspcomm，picker，pytest，toffee，toffee-test。
 
 ## 功能检测
 
-<给出目标待测功能与对应的检测方法>
 
 |序号|所属模块|功能描述|检查点描述|检查标识|检查项|
-|-|-|-|-|-|-|
+|0|InstrUncache|检测InstrUncache基本功能，模拟IFU向InstrUncache发送读数据请求以及L2返回数据，检测InstrUncache返回给IFU的数据是否正确。|-|-|-|
+
 |-|-|-|-|-|-|
 
 
 ## 验证接口
 
-<接口的描述>
+`````python
+async def _request_data(instruncache_bundle, req_addr, \
+                        l2_resp_source, l2_resp_corrupt, l2_resp_data):
+`````
+### instruncache_bundle:
+    创建时钟，绑定待测试模块信号。
 
+`````python
+@toffee_test.testcase
+async def test_instruncache_addr_alignment(toffee_request: toffee_test.ToffeeRequest):
+
+    toffee.setup_logging(toffee.WARNING)
+    instruncache = toffee_request.create_dut(DUTInstrUncache, "clock")
+    toffee.start_clock(instruncache)
+
+    instruncache_bundle = InstrUncacheBundle()
+    instruncache_bundle.bind(instruncache)
+
+`````
+
+### req_addr:
+    IFU向InstrUncache请求数据的地址
+
+### l2_resp_source, l2_resp_corrupt, l2_resp_data
+    模拟L2返回数据
+
+
+示例：
+
+`````python
+    io_resp_valid, \
+    io_resp_bits_corrupt, \
+    io_resp_bits_data = await _request_data(instruncache_bundle, 0xF0000002, 0, 0, 0xAAAAAAAABBBBBBBB)
+
+    assert 1 == io_resp_valid
+    assert 0 == io_resp_bits_corrupt
+    assert 0xAAAABBBB == io_resp_bits_data
+`````
 
 ## 用例说明
 
