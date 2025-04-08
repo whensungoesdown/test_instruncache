@@ -45,7 +45,7 @@ Ubuntu 24.04, 测试环境依赖g++, python3，verilator，xspcomm，picker，py
 async def _request_data(instruncache_bundle, req_addr, \
                         l2_resp_source, l2_resp_corrupt, l2_resp_data):
 `````
-instruncache_bundle:
+instruncache\_bundle:
 
     创建时钟，绑定待测试模块信号。
 
@@ -63,12 +63,12 @@ async def test_instruncache_addr_alignment(toffee_request: toffee_test.ToffeeReq
 
 `````
 
-req_addr:
+req\_addr:
 
     IFU向InstrUncache请求数据的地址
 
 
-l2_resp_source, l2_resp_corrupt, l2_resp_data
+l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data
 
     模拟L2返回数据
 
