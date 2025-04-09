@@ -93,11 +93,11 @@ async def _request_data(instruncache_bundle, req_addr, l2_resp_source, l2_resp_c
 
 ## 用例说明
 
-#### 测试用例1  test\_instruncache\_smoke
+#### 测试用例1：test\_instruncache\_smoke
 
 测试步骤
 
-##### 1. reset
+###### 1. reset
 
 拉高reset信号10个时钟周期，再恢复reset到0。
 
@@ -110,7 +110,7 @@ async def _request_data(instruncache_bundle, req_addr, l2_resp_source, l2_resp_c
 值为1表示设备重置，可以接受请求。
 
 
-##### 2. 模拟IFU发出读数据请求, addr = 0xF0000000
+###### 2. 模拟IFU发出读数据请求, addr = 0xF0000000
 
 InstrUncache收到IFU的请求后，转向L2请求数据。
 
@@ -121,7 +121,7 @@ InstrUncache收到IFU的请求后，转向L2请求数据。
     assert 1 == instruncache_bundle.auto_client_out_a_valid.value
 `````
 
-##### 3. 模拟L2返回数据
+###### 3. 模拟L2返回数据
 
 设置
 
@@ -132,7 +132,7 @@ InstrUncache收到IFU的请求后，转向L2请求数据。
     instruncache_bundle.auto_client_out_d_bits_data.value = 0xAAAAAAAABBBBBBBB
 `````
 
-##### 4. 检测InstrUncache是否向IFU返回数据
+###### 4. 检测InstrUncache是否向IFU返回数据
 
 IFU向InstrUncache请求的数据是32位宽，InstrUncache向L2请求的数据是64位宽。
 所以InstrUncache要根据数据地址对数据做相应处理，截取32位。
@@ -146,7 +146,7 @@ IFU向InstrUncache请求的数据是32位宽，InstrUncache向L2请求的数据�
 `````
 
 
-#### 测试用例2  test\_instruncache\_addr\_alignment
+#### 测试用例2：test\_instruncache\_addr\_alignment
 
 测试过程与test\_instruncache\_smoke相似，模拟L2返回的64-bit数据为0xAAAAAAAABBBBBBBB
 
@@ -160,7 +160,7 @@ IFU向InstrUncache请求的数据是32位宽，InstrUncache向L2请求的数据�
 
 
 
-#### 测试用例3  test\_instruncache\_addr\_misalign
+#### 测试用例3：test\_instruncache\_addr\_misalign
 
 测试过程与test\_instruncache\_smoke相似，模拟L2返回的64-bit数据为0xAAAAAAAABBBBBBBB
 
@@ -170,7 +170,7 @@ InstrUncache不检测内部IFU发出的读数据请求的地址是否misaligned�
 
 
 
-#### 测试用例4  test\_instruncache\_l2\_resp\_corrupt
+#### 测试用例4：test\_instruncache\_l2\_resp\_corrupt
 
 测试过程与test\_instruncache\_smoke相似，模拟L2取得数据的过程中出错，设置
 
@@ -194,7 +194,7 @@ InstrUncache不检测内部IFU发出的读数据请求的地址是否misaligned�
 ├── InstrUncache.sv                    # dut InstrUncache, verilog code
 ├── Makefile
 ├── README.md                          
-└── test\_instruncache.py              # 测试用例
+└── test_instruncache.py              # 测试用例
 
 1 directory, 4 files
 `````
