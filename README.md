@@ -45,8 +45,7 @@ Ubuntu 24.04, 测试环境依赖g++, python3，verilator，xspcomm，picker，py
 ## 验证接口
 
 `````python
-async def _request_data(instruncache_bundle, req_addr, \
-                        l2_resp_source, l2_resp_corrupt, l2_resp_data):
+async def _request_data(instruncache_bundle, req_addr, l2_resp_source, l2_resp_corrupt, l2_resp_data):
 
 `````
 
