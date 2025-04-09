@@ -191,6 +191,14 @@ InstrUncache不检测内部IFU发出的读数据请求的地址是否misaligned�
 
 <对本模块的目录结构进行描述>
 
+.
+├── InstrUncache.sv                    # dut InstrUncache, verilog code
+├── Makefile
+├── README.md                          
+└── test\_instruncache.py              # 测试用例
+
+1 directory, 4 files
+
 
 ## 检测列表
 
