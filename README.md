@@ -51,7 +51,7 @@ async def _request_data(instruncache_bundle, req_addr, l2_resp_source, l2_resp_c
 
 参数：
 
-** instruncache\_bundle **
+**instruncache\_bundle**
 
     创建时钟，绑定待测试模块信号。
 
@@ -69,12 +69,12 @@ async def _request_data(instruncache_bundle, req_addr, l2_resp_source, l2_resp_c
 > 
 > `````
 
-** req\_addr **
+**req\_addr**
 
     IFU向InstrUncache请求数据的地址
 
 
-** l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data **
+**l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data**
 
     模拟L2返回数据
 
