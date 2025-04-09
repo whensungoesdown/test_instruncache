@@ -159,6 +159,34 @@ IFU向InstrUncache请求的数据是32位宽，InstrUncache向L2请求的数据�
 - 当数据请求地址为0xF0000004（地址最低3位为110）时，IFU得到的32-bit数据应为0xAAAAAAAA (63:48)， 高16-bit补0
 
 
+
+#### 测试用例3  test\_instruncache\_addr\_misalign
+
+测试过程与test\_instruncache\_smoke相似，模拟L2返回的64-bit数据为0xAAAAAAAABBBBBBBB
+
+InstrUncache不检测内部IFU发出的读数据请求的地址是否misaligned，InstrUncache忽略地址最低位并将最低位改为0后转发给L2。
+
+当数据请求地址为0xF0000001（地址最低3位为001）时，IFU得到的32-bit数据应为0xBBBBBBBB (31:0)
+
+
+
+#### 测试用例4  test\_instruncache\_l2\_resp\_corrupt
+
+测试过程与test\_instruncache\_smoke相似，模拟L2取得数据的过程中出错，设置
+
+`````python
+    instruncache_bundle.auto_client_out_d_bits_corrupt.value = 1
+`````
+
+检测InstrUncache是否传递回出错信息
+
+`````python
+    assert 1 == io_resp_valid
+    assert 1 == io_resp_bits_corrupt
+`````
+
+
+
 ## 目录结构
 
 <对本模块的目录结构进行描述>

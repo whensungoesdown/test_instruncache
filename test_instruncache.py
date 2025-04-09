@@ -380,7 +380,7 @@ async def test_instruncache_addr_misalign(toffee_request: toffee_test.ToffeeRequ
     instruncache_bundle = InstrUncacheBundle()
     instruncache_bundle.bind(instruncache)
 
-    # subtest 0
+
     io_resp_valid, \
     io_resp_bits_corrupt, \
     io_resp_bits_data = await _request_data(instruncache_bundle, 0xF0000001, 0, 0, 0xAAAAAAAABBBBBBBB)
