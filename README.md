@@ -92,7 +92,7 @@ l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data
 
 测试步骤
 
-1. reset
+##### 1. reset
 
 拉高reset信号10个时钟周期，再恢复reset到0。
 
@@ -105,7 +105,7 @@ io_req_ready == 1
 值为1表示设备重置，可以接受请求。
 
 
-2. 模拟IFU发出读数据请求, addr = 0xF0000000
+##### 2. 模拟IFU发出读数据请求, addr = 0xF0000000
 
 InstrUncache收到IFU的请求后，转向L2请求数据。
 
@@ -116,7 +116,7 @@ auto_client_out_a_bits_address == 0xF0000000
 auto_client_out_a_valid == 1
 `````
 
-3. 模拟L2返回数据
+##### 3. 模拟L2返回数据
 
 设置
 
@@ -127,7 +127,7 @@ auto_client_out_d_bits_corrupt = 0
 auto_client_out_d_valid = 1
 `````
 
-4. 检测InstrUncache是否向IFU返回数据
+##### 4. 检测InstrUncache是否向IFU返回数据
 
 IFU向InstrUncache请求的数据是32位宽，InstrUncache向L2请求的数据是64位宽。
 所以InstrUncache要根据数据地址对数据做相应处理，截取32位。
@@ -135,9 +135,9 @@ IFU向InstrUncache请求的数据是32位宽，InstrUncache向L2请求的数据�
 检测
 
 `````python
-io\_resp\_valid == 1
-io\_resp\_bits\_corrupt == 0
-io\_resp\_bits\_data == 0xBBBBBBBB
+io_resp_valid == 1
+io_resp_bits_corrupt == 0
+io_resp_bits_data == 0xBBBBBBBB
 `````
 
 
