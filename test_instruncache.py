@@ -3,97 +3,9 @@ import random
 import toffee_test
 from picker_out_instruncache import DUTInstrUncache
 
-from env import InstrUncacheBundle
-from env import InstrUncacheEnv
-
 import toffee
-
-"""
-Test cases
-"""
-
-#@toffee_test.testcase
-#async def test_random(adder_env):
-#    for _ in range(1000):
-#        a = random.randint(0, 2**64 - 1)
-#        b = random.randint(0, 2**64 - 1)
-#        cin = random.randint(0, 1)
-#        await adder_env.add_agent.exec_add(a, b, cin)
-#
-#
-#@toffee_test.testcase
-#async def test_boundary(adder_env):
-#    for cin in [0, 1]:
-#        for a in [0, 2**64 - 1]:
-#            for b in [0, 2**64 - 1]:
-#                await adder_env.add_agent.exec_add(a, b, cin)
-
-"""
-Coverage definition
-"""
-
-#import toffee.funcov as fc
-#from toffee.funcov import CovGroup
-#
-#
-#def adder_cover_point(adder):
-#    g = CovGroup("Adder addition function")
-#
-#    g.add_cover_point(adder.io_cout, {"io_cout is 0": fc.Eq(0)}, name="Cout is 0")
-#    g.add_cover_point(adder.io_cout, {"io_cout is 1": fc.Eq(1)}, name="Cout is 1")
-#    g.add_cover_point(adder.io_cin, {"io_cin is 0": fc.Eq(0)}, name="Cin is 0")
-#    g.add_cover_point(adder.io_cin, {"io_cin is 1": fc.Eq(1)}, name="Cin is 1")
-#    g.add_cover_point(adder.io_a, {"a > 0": fc.Gt(0)}, name="signal a set")
-#    g.add_cover_point(adder.io_b, {"b > 0": fc.Gt(0)}, name="signal b set")
-#    g.add_cover_point(adder.io_sum, {"sum > 0": fc.Gt(0)}, name="signal sum set")
-#    g.add_cover_point(
-#        (toffee.Delayer(adder.io_cout, 1), adder.io_cout),
-#        {
-#            "io_cout 1 -> 0": lambda signal: signal[0].value == 1
-#            and signal[1].value == 0
-#        },
-#        name="Cout 1 -> 0",
-#    )
-#
-#    return g
-
-
-#@toffee_test.testcase
-#async def test_reset(instruncache_env):
-#    print ('reset', instruncache_env.instruncache_agent.bundle.reset)
-#    io_req_ready = await instruncache_env.instruncache_agent.exec_reset()
-##    print ('io_req_ready', instruncache_env.instruncache_bundle.io_req_ready)
-##    print ('io_resp_valid', instruncache_env.instruncache_bundle.io_resp_valid)
-##    print ('x io_req_ready', io_req_ready)
-#    print ('io_req_ready', instruncache_env.instruncache_agent.bundle.io_req_ready)
-#    print ('auto_client_out_a_bits_address', instruncache_env.instruncache_agent.bundle.auto_client_out_a_bits_address)
-#
-
-
-
-
-"""
-Initialize before each test
-"""
-
-
-
-#@toffee_test.fixture
-#async def instruncache_env(toffee_request: toffee_test.ToffeeRequest):
-#    toffee.setup_logging(toffee.WARNING)
-#    dut = toffee_request.create_dut(DUTInstrUncache, "clock")
-##    toffee_request.add_cov_groups(adder_cover_point(dut))
-#    toffee.start_clock(dut)
-##    return AdderEnv(AdderBundle.from_prefix("io_").bind(dut))
-#    #return InstrUncacheEnv(InstrUncacheBundle.from_regex(".*").bind(dut))
-#    instruncache_bundle = InstrUncacheBundle()
-#    instruncache_bundle.bind(dut)
-#    return InstrUncacheEnv(instruncache_bundle)
-
-
-
-
 from toffee import *
+
 
 class InstrUncacheBundle(Bundle):
         
@@ -113,26 +25,6 @@ class InstrUncacheBundle(Bundle):
     io_resp_bits_data, \
     io_resp_bits_corrupt = Signals(15)
 
-
-#class InstrUncacheAgent(Agent):
-#    @driver_method()
-#    async def exec_reset(self):
-##        self.bundle.a.value = a
-##        self.bundle.b.value = b
-##        self.bundle.cin.value = cin
-#        self.bundle.reset = 1
-#        await self.bundle.step()
-#        await self.bundle.step()
-#        print ('!!!! reset', self.bundle.reset)
-#        await self.bundle.step()
-#        await self.bundle.step()
-#        await self.bundle.step()
-#        self.bundle.reset = 0
-#        self.bundle.auto_client_out_a_ready = 1
-#
-#        print ('!!!!', self.bundle.io_req_ready.value)
-#        print ('!!!!', self.bundle.auto_client_out_a_bits_address.value)
-#        return self.bundle.io_req_ready
 
 
 @toffee_test.testcase
