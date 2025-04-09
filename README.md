@@ -32,44 +32,50 @@ Ubuntu 24.04, 测试环境依赖g++, python3，verilator，xspcomm，picker，py
 
 ## 功能检测
 
+1. InstrUncache是否可以重置设备
 
-|序号|所属模块|功能描述|检查点描述|检查标识|检查项|
+2. InstrUncache是否可以接收到IFU发出的32-bit读数据请求，在内部寄存，并向L2转发64-bit读数据请求
 
-|0|InstrUncache|检测InstrUncache基本功能，模拟IFU向InstrUncache发送读数据请求以及L2返回数据，检测InstrUncache返回给IFU的数据是否正确。|-|-|-|
+3. InstrUncache是否可以接收L2返回的64-bit数据，并根据地址信息截取32-bit数据返回给IFU
 
-|-|-|-|-|-|-|
+4. InstrUncache是否可以根据地址信息，从64-bit数据中截取相应位置的32-bit数据
 
+5. InstrUncache是否可以处理L2返回的数据错误信号(corrupt)
 
 ## 验证接口
 
 `````python
 async def _request_data(instruncache_bundle, req_addr, \
                         l2_resp_source, l2_resp_corrupt, l2_resp_data):
+
 `````
-instruncache\_bundle:
+
+参数：
+
+** instruncache\_bundle **
 
     创建时钟，绑定待测试模块信号。
 
 
-`````python
-@toffee_test.testcase
-async def test_instruncache_addr_alignment(toffee_request: toffee_test.ToffeeRequest):
+> `````python
+> @toffee_test.testcase
+> async def test_instruncache_addr_alignment(toffee_request: toffee_test.ToffeeRequest):
+> 
+>     toffee.setup_logging(toffee.WARNING)
+>     instruncache = toffee_request.create_dut(DUTInstrUncache, "clock")
+>     toffee.start_clock(instruncache)
+> 
+>     instruncache_bundle = InstrUncacheBundle()
+>     instruncache_bundle.bind(instruncache)
+> 
+> `````
 
-    toffee.setup_logging(toffee.WARNING)
-    instruncache = toffee_request.create_dut(DUTInstrUncache, "clock")
-    toffee.start_clock(instruncache)
-
-    instruncache_bundle = InstrUncacheBundle()
-    instruncache_bundle.bind(instruncache)
-
-`````
-
-req\_addr:
+** req\_addr **
 
     IFU向InstrUncache请求数据的地址
 
 
-l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data
+** l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data **
 
     模拟L2返回数据
 
