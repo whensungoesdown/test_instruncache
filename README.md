@@ -99,7 +99,7 @@ l2\_resp\_source, l2\_resp\_corrupt, l2\_resp\_data
 检测
 
 `````python
-io_req_ready == 1
+    assert 1 == instruncache_bundle.io_req_ready.value
 `````
 
 值为1表示设备重置，可以接受请求。
@@ -112,8 +112,8 @@ InstrUncache收到IFU的请求后，转向L2请求数据。
 检测L2请求是否正确发出
 
 `````python
-auto_client_out_a_bits_address == 0xF0000000
-auto_client_out_a_valid == 1
+    assert 0xF0000000 == instruncache_bundle.auto_client_out_a_bits_address.value
+    assert 1 == instruncache_bundle.auto_client_out_a_valid.value
 `````
 
 ##### 3. 模拟L2返回数据
@@ -121,10 +121,10 @@ auto_client_out_a_valid == 1
 设置
 
 `````python
-auto_client_out_d_bits_data = 0xAAAAAAAABBBBBBBB
-auto_client_out_d_bits_source = 0
-auto_client_out_d_bits_corrupt = 0
-auto_client_out_d_valid = 1
+    instruncache_bundle.auto_client_out_d_valid.value = 1
+    instruncache_bundle.auto_client_out_d_bits_source.value = 0
+    instruncache_bundle.auto_client_out_d_bits_corrupt.value = 0
+    instruncache_bundle.auto_client_out_d_bits_data.value = 0xAAAAAAAABBBBBBBB
 `````
 
 ##### 4. 检测InstrUncache是否向IFU返回数据
@@ -135,9 +135,9 @@ IFU向InstrUncache请求的数据是32位宽，InstrUncache向L2请求的数据�
 检测
 
 `````python
-io_resp_valid == 1
-io_resp_bits_corrupt == 0
-io_resp_bits_data == 0xBBBBBBBB
+    assert 1 == instruncache_bundle.io_resp_valid.value
+    assert 0 == instruncache_bundle.io_resp_bits_corrupt.value
+    assert 0xBBBBBBBB == instruncache_bundle.io_resp_bits_data.value
 `````
 
 
