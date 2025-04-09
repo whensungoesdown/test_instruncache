@@ -146,11 +146,17 @@ IFU向InstrUncache请求的数据是32位宽，InstrUncache向L2请求的数据�
 `````
 
 
-#### 测试用例2
+#### 测试用例2  test\_instruncache\_addr\_alignment
 
-|步骤|操作内容|预期结果|覆盖功能点|
-|x|x|x|x|
-|-|-|-|-|
+测试过程与test\_instruncache\_smoke相似，模拟L2返回的64-bit数据为0xAAAAAAAABBBBBBBB
+
+- 当数据请求地址为0xF0000002（地址最低3位为000）时，IFU得到的32-bit数据应为0xAAAABBBB (31:0)
+
+- 当数据请求地址为0xF0000004（地址最低3位为010）时，IFU得到的32-bit数据应为0xAAAAAAAA (47:16)
+
+- 当数据请求地址为0xF0000004（地址最低3位为100）时，IFU得到的32-bit数据应为0xAAAAAAAA (63:32)
+
+- 当数据请求地址为0xF0000004（地址最低3位为110）时，IFU得到的32-bit数据应为0xAAAAAAAA (63:48)， 高16-bit补0
 
 
 ## 目录结构
